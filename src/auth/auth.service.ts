@@ -65,7 +65,6 @@ export class AuthService {
 
     const accessToken = await this.jwtService.signAsync(payload);
 
-
     return {
       message: 'Login successful',
       accessToken,
@@ -77,4 +76,29 @@ export class AuthService {
       },
     };
   }
+
+  async getMe(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return user;
+  }
+
+
+
+
+  
 }

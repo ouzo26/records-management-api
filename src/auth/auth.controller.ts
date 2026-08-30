@@ -27,9 +27,10 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  
   @Get('me')
   @UseGuards(JwtAuthGuard)
   getMe(@Req() req) {
-    return req.user;
+    return this.authService.getMe(req.user.sub);
   }
 }
