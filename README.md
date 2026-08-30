@@ -58,23 +58,32 @@ Authorization: Bearer jwt-access-token
 
 Start the PostgreSQL database:
 
+```bash
 docker compose up -d
+```
 
 Start the development server:
 
+```bash
 npm run start:dev
+```
 
 Stop the database:
 
+```bash
 docker compose down
-Environment Variables
+```
 
-Create a .env file in the project root:
+## Environment Variables
 
+Create a `.env` file in the project root:
+
+```env
 DATABASE_URL="postgresql://records_user26:records_password26@localhost:5432/records_management?schema=public"
 JWT_SECRET="your-local-jwt-secret"
+```
 
-The .env file is ignored by Git and should not be committed.
+The `.env` file is ignored by Git and should not be committed.
 
 # Planned Features
 
