@@ -5,24 +5,26 @@ A backend API built with NestJS, TypeScript, PostgreSQL, and Prisma.
 This project is a secure records management system where users can register, log in, and access protected routes using JWT authentication. It is being built as a backend portfolio project focused on authentication, authorization, database modeling, and clean API structure.
 
 ## Tech Stack
-NestJS
-TypeScript
-PostgreSQL
-Prisma
-Docker Compose
-bcrypt
-JWT
+
+- NestJS
+- TypeScript
+- PostgreSQL
+- Prisma
+- Docker Compose
+- bcrypt
+- JWT
 
 ## Features
-User registration
-Secure password hashing
-User login
-JWT access token generation
-Protected routes using bearer token authentication
-Current user endpoint
-PostgreSQL database managed with Docker Compose
-Prisma ORM for database access
-User roles for future authorization features
+
+- User registration
+- Secure password hashing
+- User login
+- JWT access token generation
+- Protected routes using bearer token authentication
+- Current user endpoint
+- PostgreSQL database managed with Docker Compose
+- Prisma ORM for database access
+- User roles for future authorization features
 
 ## API Endpoints
 
@@ -75,11 +77,12 @@ JWT_SECRET="your-local-jwt-secret"
 The .env file is ignored by Git and should not be committed.
 
 # Planned Features
-User profiles
-Profile update routes
-Role-based authorization
-Admin-only routes
-User-owned records
-Request validation
-Rate limiting for authentication routes
-API documentation
+
+- User profiles
+- Profile update routes
+- Role-based authorization
+- Admin-only routes
+- User-owned records
+- Request validation
+- Rate limiting for authentication routes
+- API documentation
