@@ -15,9 +15,12 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { email, password } = registerDto;
+    const normalizedEmail = email.trim().toLowerCase();
 
     const existingUser = await this.prisma.user.findUnique({
-      where: { email },
+      where: { 
+        email: normalizedEmail 
+      },
     });
 
     if (existingUser) {
@@ -28,7 +31,7 @@ export class AuthService {
 
     const user = await this.prisma.user.create({
       data: {
-        email,
+        email : normalizedEmail,
         passwordHash,
       },
       select: {
@@ -44,8 +47,12 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
+    const normalizedEmail = email.trim().toLowerCase();
+
     const user = await this.prisma.user.findUnique({
-      where: { email },
+      where: {
+         email: normalizedEmail 
+        },
     });
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
