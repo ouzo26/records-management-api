@@ -25,9 +25,15 @@ This project is a secure records management system where users can register, log
 - PostgreSQL database managed with Docker Compose
 - Prisma ORM for database access
 - User roles for future authorization features
+- User profile creation and updates
+- User-owned profile access
+- Request validation with DTOs
+- Invalid request handling with 400 responses
 
 ## API Endpoints
 
+
+## API Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
@@ -35,6 +41,8 @@ This project is a secure records management system where users can register, log
 | POST | `/auth/register` | Creates a new user |
 | POST | `/auth/login` | Logs in a user and returns a JWT |
 | GET | `/auth/me` | Returns the current authenticated user |
+| GET | `/profiles/me` | Returns the authenticated user's profile |
+| PATCH | `/profiles/me` | Creates or updates the authenticated user's profile |
 
 ## Authentication
 
@@ -87,11 +95,8 @@ The `.env` file is ignored by Git and should not be committed.
 
 # Planned Features
 
-- User profiles
-- Profile update routes
 - Role-based authorization
 - Admin-only routes
 - User-owned records
-- Request validation
 - Rate limiting for authentication routes
 - API documentation
