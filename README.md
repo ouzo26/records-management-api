@@ -30,7 +30,6 @@ This project is a secure records management system where users can register, log
 - Request validation with DTOs
 - Invalid request handling with 400 responses
 
-## API Endpoints
 
 
 ## API Endpoints
