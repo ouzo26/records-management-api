@@ -14,7 +14,7 @@ export class ProfilesService {
     });
   }
 
-async updateMyProfile(userId: string, updateProfileDto: UpdateProfileDto) {
+  async updateMyProfile(userId: string, updateProfileDto: UpdateProfileDto) {
     return this.prisma.profile.upsert({
       where: {
         userId,
@@ -33,6 +33,32 @@ async updateMyProfile(userId: string, updateProfileDto: UpdateProfileDto) {
         phone: updateProfileDto.phone,
         address: updateProfileDto.address,
         bio: updateProfileDto.bio,
+      },
+    });
+  }
+
+  async getAllUsersForAdmin() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        profile: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            phone: true,
+            address: true,
+            bio: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
