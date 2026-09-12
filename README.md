@@ -29,6 +29,8 @@ This project is a secure records management system where users can register, log
 - User-owned profile access
 - Request validation with DTOs
 - Invalid request handling with 400 responses
+- Role-based authorization
+- Admin-only routes
 
 
 
@@ -42,6 +44,7 @@ This project is a secure records management system where users can register, log
 | GET | `/auth/me` | Returns the current authenticated user |
 | GET | `/profiles/me` | Returns the authenticated user's profile |
 | PATCH | `/profiles/me` | Creates or updates the authenticated user's profile |
+| GET | `/profiles/admin/users` | Admin-only route that returns all users with their profiles |
 
 ## Authentication
 
@@ -94,8 +97,6 @@ The `.env` file is ignored by Git and should not be committed.
 
 # Planned Features
 
-- Role-based authorization
-- Admin-only routes
 - User-owned records
 - Rate limiting for authentication routes
 - API documentation
