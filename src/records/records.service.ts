@@ -1,5 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { Role } from '@prisma/client';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
 
 @Injectable()
 export class RecordsService {
@@ -68,6 +71,23 @@ export class RecordsService {
     return this.prisma.record.delete({
       where: {
         id: recordId,
+      },
+    });
+  }
+
+  async getAllRecordsForAdmin() {
+    return this.prisma.record.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }

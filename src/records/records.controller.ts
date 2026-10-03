@@ -11,6 +11,9 @@ import {
 } from '@nestjs/common';
 import { RecordsService } from './records.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '@prisma/client';
 
 @Controller('records')
 export class RecordsController {
@@ -49,5 +52,12 @@ export class RecordsController {
   @UseGuards(JwtAuthGuard)
   deleteRecord(@Req() req, @Param('id') id: string) {
     return this.recordsService.deleteRecord(req.user.sub, id);
+  }
+
+  @Get('admin/all')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  getAllRecordsForAdmin() {
+    return this.recordsService.getAllRecordsForAdmin();
   }
 }
