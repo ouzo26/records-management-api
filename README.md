@@ -99,6 +99,4 @@ The `.env` file is ignored by Git and should not be committed.
 
 # Planned Features
 
-- User-owned records
-- Rate limiting for authentication routes
-- API documentation
+- more stuff
