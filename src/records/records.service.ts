@@ -18,10 +18,28 @@ export class RecordsService {
     });
   }
 
-  async getMyRecords(userId: string) {
+  async getMyRecords(userId: string, search?: string) {
     return this.prisma.record.findMany({
       where: {
         userId,
+        ...(search
+          ? {
+              OR: [
+                {
+                  title: {
+                    contains: search,
+                    mode: 'insensitive',
+                  },
+                },
+                {
+                  content: {
+                    contains: search,
+                    mode: 'insensitive',
+                  },
+                },
+              ],
+            }
+          : {}),
       },
       orderBy: {
         createdAt: 'desc',

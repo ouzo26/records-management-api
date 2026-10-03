@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -30,8 +31,8 @@ export class RecordsController {
   }
   @Get()
   @UseGuards(JwtAuthGuard)
-  getMyRecords(@Req() req) {
-    return this.recordsService.getMyRecords(req.user.sub);
+  getMyRecords(@Req() req, @Query('search') search?: string) {
+    return this.recordsService.getMyRecords(req.user.sub, search);
   }
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
