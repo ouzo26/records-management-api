@@ -31,6 +31,7 @@ This project is a secure records management system where users can register, log
 - Invalid request handling with 400 responses
 - Role-based authorization
 - Admin-only routes
+- Admin-only access to all records
 
 
 
@@ -45,6 +46,7 @@ This project is a secure records management system where users can register, log
 | GET | `/profiles/me` | Returns the authenticated user's profile |
 | PATCH | `/profiles/me` | Creates or updates the authenticated user's profile |
 | GET | `/profiles/admin/users` | Admin-only route that returns all users with their profiles |
+| GET | `/records/admin/all` | Admin-only route that returns all records |
 
 ## Authentication
 
