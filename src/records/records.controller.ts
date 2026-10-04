@@ -31,8 +31,18 @@ export class RecordsController {
   }
   @Get()
   @UseGuards(JwtAuthGuard)
-  getMyRecords(@Req() req, @Query('search') search?: string) {
-    return this.recordsService.getMyRecords(req.user.sub, search);
+  getMyRecords(
+    @Req() req,
+    @Query('search') search?: string,
+    @Query('page') page = '1',
+    @Query('limit') limit = '10',
+  ) {
+    return this.recordsService.getMyRecords(
+      req.user.sub,
+      search,
+      Number(page),
+      Number(limit),
+    );
   }
   @Patch(':id')
   @UseGuards(JwtAuthGuard)

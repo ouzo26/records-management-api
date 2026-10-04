@@ -18,34 +18,43 @@ export class RecordsService {
     });
   }
 
-  async getMyRecords(userId: string, search?: string) {
-    return this.prisma.record.findMany({
-      where: {
-        userId,
-        ...(search
-          ? {
-              OR: [
-                {
-                  title: {
-                    contains: search,
-                    mode: 'insensitive',
-                  },
+  async getMyRecords(
+  userId: string,
+  search?: string,
+  page = 1,
+  limit = 10,
+) {
+  const skip = (page - 1) * limit;
+
+  return this.prisma.record.findMany({
+    where: {
+      userId,
+      ...(search
+        ? {
+            OR: [
+              {
+                title: {
+                  contains: search,
+                  mode: 'insensitive',
                 },
-                {
-                  content: {
-                    contains: search,
-                    mode: 'insensitive',
-                  },
+              },
+              {
+                content: {
+                  contains: search,
+                  mode: 'insensitive',
                 },
-              ],
-            }
-          : {}),
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-  }
+              },
+            ],
+          }
+        : {}),
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    skip,
+    take: limit,
+  });
+}
   async updateRecord(
     userId: string,
     recordId: string,
