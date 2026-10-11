@@ -18,16 +18,10 @@ export class RecordsService {
     });
   }
 
-  async getMyRecords(
-  userId: string,
-  search?: string,
-  page = 1,
-  limit = 10,
-) {
-  const skip = (page - 1) * limit;
+  async getMyRecords(userId: string, search?: string, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
 
-  return this.prisma.record.findMany({
-    where: {
+    const where = {
       userId,
       ...(search
         ? {
@@ -35,26 +29,43 @@ export class RecordsService {
               {
                 title: {
                   contains: search,
-                  mode: 'insensitive',
+                  mode: 'insensitive' as const,
                 },
               },
               {
                 content: {
                   contains: search,
-                  mode: 'insensitive',
+                  mode: 'insensitive' as const,
                 },
               },
             ],
           }
         : {}),
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    skip,
-    take: limit,
-  });
-}
+    };
+
+    const [records, total] = await Promise.all([
+      this.prisma.record.findMany({
+        where,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+
+      this.prisma.record.count({
+        where,
+      }),
+    ]);
+
+    return {
+      data: records,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
   async updateRecord(
     userId: string,
     recordId: string,
