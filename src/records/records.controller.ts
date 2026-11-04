@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '@prisma/client';
+import { RecordStatus } from '@prisma/client';
 
 @Controller('records')
 export class RecordsController {
@@ -70,5 +71,15 @@ export class RecordsController {
   @Roles(Role.ADMIN)
   getAllRecordsForAdmin() {
     return this.recordsService.getAllRecordsForAdmin();
+  }
+
+  @Patch(':id/status')
+  @UseGuards(JwtAuthGuard)
+  updateRecordStatus(
+    @Req() req,
+    @Param('id') id: string,
+    @Body('status') status: RecordStatus,
+  ) {
+    return this.recordsService.updateRecordStatus(req.user.sub, id, status);
   }
 }

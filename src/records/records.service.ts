@@ -3,6 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Role } from '@prisma/client';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
+import { BadRequestException } from '@nestjs/common';
+import { RecordStatus } from '@prisma/client';
 
 @Injectable()
 export class RecordsService {
@@ -126,6 +128,46 @@ export class RecordsService {
       },
       orderBy: {
         createdAt: 'desc',
+      },
+    });
+  }
+
+  async updateRecordStatus(
+    userId: string,
+    recordId: string,
+    newStatus: RecordStatus,
+  ) {
+    const record = await this.prisma.record.findFirst({
+      where: {
+        id: recordId,
+        userId,
+      },
+    });
+
+    if (!record) {
+      throw new NotFoundException('Record not found');
+    }
+
+    const validTransitions: Record<RecordStatus, RecordStatus[]> = {
+      DRAFT: [RecordStatus.ACTIVE],
+      ACTIVE: [RecordStatus.ARCHIVED],
+      ARCHIVED: [],
+    };
+
+    const allowedStatuses = validTransitions[record.status];
+
+    if (!allowedStatuses.includes(newStatus)) {
+      throw new BadRequestException(
+        `Cannot change status from ${record.status} to ${newStatus}`,
+      );
+    }
+
+    return this.prisma.record.update({
+      where: {
+        id: recordId,
+      },
+      data: {
+        status: newStatus,
       },
     });
   }
