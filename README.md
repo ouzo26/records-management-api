@@ -32,6 +32,11 @@ This project is a secure records management system where users can register, log
 - Role-based authorization
 - Admin-only routes
 - Admin-only access to all records
+- Record status workflow using `DRAFT`, `ACTIVE`, and `ARCHIVED`
+- Enforced status transitions:
+  - `DRAFT -> ACTIVE`
+  - `ACTIVE -> ARCHIVED`
+- Invalid status transitions are rejected
 
 
 
@@ -47,6 +52,7 @@ This project is a secure records management system where users can register, log
 | PATCH | `/profiles/me` | Creates or updates the authenticated user's profile |
 | GET | `/profiles/admin/users` | Admin-only route that returns all users with their profiles |
 | GET | `/records/admin/all` | Admin-only route that returns all records |
+| PATCH | `/records/:id/status` | Update a record's workflow status |
 
 ## Authentication
 
