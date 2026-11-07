@@ -20,30 +20,56 @@ export class RecordsService {
     });
   }
 
-  async getMyRecords(userId: string, search?: string, page = 1, limit = 10) {
+  async getMyRecords(userId: string, search?: string, status?: RecordStatus, page = 1, limit = 10) {
     const skip = (page - 1) * limit;
+    const trimmedSearch = search?.trim();
 
     const where = {
-      userId,
-      ...(search
-        ? {
-            OR: [
-              {
-                title: {
-                  contains: search,
-                  mode: 'insensitive' as const,
-                },
-              },
-              {
-                content: {
-                  contains: search,
-                  mode: 'insensitive' as const,
-                },
-              },
-            ],
-          }
-        : {}),
-    };
+  userId,
+
+  ...(status
+    ? {
+        status,
+      }
+    : {}),
+
+  ...(search
+    ? {
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: 'insensitive' as const,
+            },
+          },
+          {
+            content: {
+              contains: search,
+              mode: 'insensitive' as const,
+            },
+          },
+        ],
+      }
+    : {}),
+    ...(trimmedSearch
+  ? {
+      OR: [
+        {
+          title: {
+            contains: trimmedSearch,
+            mode: 'insensitive' as const,
+          },
+        },
+        {
+          content: {
+            contains: trimmedSearch,
+            mode: 'insensitive' as const,
+          },
+        },
+      ],
+    }
+  : {}),
+};
 
     const [records, total] = await Promise.all([
       this.prisma.record.findMany({

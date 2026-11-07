@@ -35,12 +35,14 @@ export class RecordsController {
   getMyRecords(
     @Req() req,
     @Query('search') search?: string,
+    @Query('status') status?: RecordStatus,
     @Query('page') page = '1',
     @Query('limit') limit = '10',
   ) {
     return this.recordsService.getMyRecords(
       req.user.sub,
       search,
+      status,
       Number(page),
       Number(limit),
     );
